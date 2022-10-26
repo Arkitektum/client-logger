@@ -1,0 +1,34 @@
+{
+    "name": "@arkitektum/client-logger",
+    "version": "1.0.0",
+    "description": "",
+    "types": "./lib/cjs/types/index.d.ts",
+    "main": "./lib/cjs/index.js",
+    "files": [
+        "lib/**/*"
+    ],
+    "exports": {
+        ".": {
+            "require": {
+                "types": "./lib/cjs/types/index.d.ts",
+                "default": "./lib/cjs/index.js"
+            }
+        }
+    },
+    "scripts": {
+        "clean": "rm -rf ./lib",
+        "build": "npm run clean && npm run build:cjs",
+        "build:cjs": "tsc -p ./configs/tsconfig.cjs.json"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Arkitektum/client-logger.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "",
+    "bugs": {
+        "url": "https://github.com/Arkitektum/client-logger/issues"
+    },
+    "homepage": "https://github.com/Arkitektum/client-logger#readme"
+}
