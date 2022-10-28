@@ -4,10 +4,19 @@
         "target": "es5" /* Specify ECMAScript target version: */,
         "module": "commonjs" /* 'none', 'commonjs', 'amd', 'system', etc */,
         "declaration": true /* Concatenate & emit output to single file.*/,
-        "outDir": "../lib" /* Redirect output to the directory. */,
+        "declarationDir": "../lib/cjs/types",
+        "outDir": "../lib/cjs" /* Redirect output to the directory. */,
         "esModuleInterop": true /* Enables intero between CommonJS and ES */,
         "skipLibCheck": true /* Skip type checking of declaration files. */,
-        "forceConsistentCasingInFileNames": true /* Disallow inconsistently */
+        "forceConsistentCasingInFileNames": true, /* Disallow inconsistently */
+        "downlevelIteration": true,
+        "lib": [
+            "dom",
+            "es5",
+            "ES2015.promise",
+            "es2020.string",
+            "es2018.regexp"
+        ],
     },
     "include": ["../src"],
     "exclude": ["node_modules"]
