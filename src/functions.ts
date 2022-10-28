@@ -1,9 +1,66 @@
-export const createUUID = () => {
-    var dt = new Date().getTime();
-    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-        var r = (dt + Math.random() * 16) % 16 | 0;
-        dt = Math.floor(dt / 16);
-        return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
-    });
-    return uuid;
-};
+function getErrorDataFromStack(error: Error) {
+    const stackRegex = /(?<source>http.*?):(?<line>\d+):(?<column>\d+)/g;
+
+    if (!!error?.stack?.length) {
+        const stack = error.stack.toString();
+        const matches = [...stack.matchAll(stackRegex)];
+        if (!!matches.length) {
+            const matchGroup = matches?.[0]?.groups;
+            const source = matchGroup?.source;
+
+            return {
+                source: source?.substring(source.lastIndexOf("/") + 1),
+                line: matchGroup?.line?.length ? parseInt(matchGroup?.line) : null,
+                column: matchGroup?.column?.length ? parseInt(matchGroup.column) : null
+            };
+        } else {
+            return null;
+        }
+    } else {
+        return null;
+    }
+}
+
+export function getErrorDataFromError(error: Error, consumer: any) {
+    const errorData = getErrorDataFromStack(error);
+    if (consumer !== null && errorData !== null) {
+        const originalPosition = consumer.originalPositionFor({ line: errorData.line, column: errorData.column });
+        return {
+            message: error.message,
+            originalPosition
+        };
+    }
+
+    return {
+        message: error.message,
+        originalPosition: {
+            source: errorData?.source,
+            line: errorData?.line,
+            column: errorData?.column
+        }
+    };
+}
+
+export function getErrorDataFromSourceMap(
+    event: Event | string,
+    source?: string,
+    line?: number,
+    column?: number,
+    consumer?: any
+) {
+    if (consumer !== null && line !== undefined && column !== undefined) {
+        const originalPosition = consumer.originalPositionFor({ line, column });
+        return {
+            message: event.toString(),
+            originalPosition
+        };
+    }
+    return {
+        message: event.toString(),
+        originalPosition: {
+            column,
+            line,
+            source
+        }
+    };
+}
