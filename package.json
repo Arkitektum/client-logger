@@ -5,7 +5,8 @@
     "types": "./lib/cjs/types/index.d.ts",
     "main": "./lib/cjs/index.js",
     "files": [
-        "lib/**/*"
+        "lib/**/*",
+        "README.md"
     ],
     "scripts": {
         "clean": "rm -rf ./lib",
