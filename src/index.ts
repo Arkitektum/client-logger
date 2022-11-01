@@ -97,7 +97,7 @@ export class ClientLogger {
         return clientLogger;
     }
 
-    public async getLoggMessageFromError(error: Error, logMessageProps: LogMessage) {
+    public async getLogMessageFromError(error: Error, logMessageProps: LogMessage) {
         const consumer =
             this.sourceMapJson !== null ? await new window.sourceMap.SourceMapConsumer(this.sourceMapJson) : null;
         const errorData = getErrorDataFromError(error, consumer);
