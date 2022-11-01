@@ -16,7 +16,7 @@ interface LogMessage {
         source: string;
     };
     path?: string;
-    stacktrace?: string;
+    stackTrace?: string;
     statuscode?: string;
     correlationId?: string;
 }
@@ -89,7 +89,7 @@ export class ClientLogger {
             column?: number,
             error?: Error
         ) => {
-            const errorData = getErrorDataFromSourceMap(event, source, line, column, consumer);
+            const errorData = getErrorDataFromSourceMap(event, source, line, column, error, consumer);
             const logMessages = [errorData];
             clientLogger.postLogData(logMessages);
         };

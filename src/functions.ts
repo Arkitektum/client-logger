@@ -26,13 +26,14 @@ export function getErrorDataFromError(error: Error, consumer: any) {
     if (consumer !== null && errorData !== null) {
         const originalPosition = consumer.originalPositionFor({ line: errorData.line, column: errorData.column });
         return {
-            message: error.message,
+            message: error?.message,
+            stackTrace: error?.message ? new Error(error?.message)?.stack : null,
             originalPosition
         };
     }
-
     return {
-        message: error.message,
+        message: error?.message,
+        stackTrace: error?.message ? new Error(error?.message)?.stack : null,
         originalPosition: {
             source: errorData?.source,
             line: errorData?.line,
@@ -46,17 +47,20 @@ export function getErrorDataFromSourceMap(
     source?: string,
     line?: number,
     column?: number,
+    error?: Error,
     consumer?: any
 ) {
     if (consumer !== null && line !== undefined && column !== undefined) {
         const originalPosition = consumer.originalPositionFor({ line, column });
         return {
             message: event.toString(),
+            stackTrace: error?.stack,
             originalPosition
         };
     }
     return {
         message: event.toString(),
+        stackTrace: error?.stack,
         originalPosition: {
             column,
             line,
