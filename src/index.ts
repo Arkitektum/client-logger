@@ -28,7 +28,11 @@ class LogData {
         this.logMessages = this.populateLogMessagesWithCommonProperties(logMessages, appName, sessionId);
     }
 
-    private populateLogMessagesWithCommonProperties(logMessages: Array<LogMessage>, appName, sessionId) {
+    private populateLogMessagesWithCommonProperties(
+        logMessages: Array<LogMessage>,
+        appName: string,
+        sessionId: string
+    ) {
         return logMessages.map((logMessage) => {
             return {
                 ...logMessage,
@@ -117,7 +121,7 @@ export class ClientLogger {
             body: JSON.stringify(logData)
         };
         if (!!this.logApiUrl?.length) {
-        fetch(this.logApiUrl, fetchOptions);
+            fetch(this.logApiUrl, fetchOptions);
         } else {
             console.warn("Missing value for logApiUrl");
         }
