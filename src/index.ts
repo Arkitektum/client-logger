@@ -116,6 +116,10 @@ export class ClientLogger {
             },
             body: JSON.stringify(logData)
         };
+        if (!!this.logApiUrl?.length) {
         fetch(this.logApiUrl, fetchOptions);
+        } else {
+            console.warn("Missing value for logApiUrl");
+        }
     }
 }
