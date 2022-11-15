@@ -55,12 +55,14 @@ export function getErrorDataFromSourceMap(
         return {
             message: event.toString(),
             stackTrace: error?.stack,
+            level: "Error",
             originalPosition
         };
     }
     return {
         message: event.toString(),
         stackTrace: error?.stack,
+        level: "Error",
         originalPosition: {
             column,
             line,
