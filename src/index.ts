@@ -105,6 +105,9 @@ export class ClientLogger {
         const consumer =
             this.sourceMapJson !== null ? await new window.sourceMap.SourceMapConsumer(this.sourceMapJson) : null;
         const errorData = getErrorDataFromError(error, consumer);
+        if (errorData?.message?.length && logMessageProps?.message?.length){
+            errorData.message = `${errorData.message} | ${logMessageProps.message}`;
+        } 
         return {
             ...logMessageProps,
             ...errorData
