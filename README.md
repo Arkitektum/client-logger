@@ -82,6 +82,35 @@ fetch(apiUrl, fetchOptions)
     });
 ```
 
+### Using custom fields
+
+Any `LogMessage` can include a `custom_fields` array to attach arbitrary key/value metadata. These are forwarded as-is to the backend alongside the standard enriched fields.
+
+```js
+clientLogger.postLogData([{
+    level: "Warning",
+    message: "Something unexpected happened",
+    custom_fields: [
+        { key: "userId", value: "abc123" },
+        { key: "feature", value: "checkout" }
+    ]
+}]);
+```
+
+Custom fields can also be combined with error logging:
+
+```js
+clientLogger.getLogMessageFromError(error, {
+    level: "Error",
+    path: apiUrl,
+    custom_fields: [
+        { key: "userId", value: "abc123" }
+    ]
+}).then((logMessage) => {
+    clientLogger.postLogData([logMessage]);
+});
+```
+
 ## ClientLogger class
 
 ```ts
@@ -101,6 +130,7 @@ interface LogMessage {
     stackTrace?: string;
     statuscode?: string;
     correlationId?: string;
+    custom_fields?: Array<{ key: string; value: string }>;
 }
 declare class ClientLogger {
     logApiUrl: string;
