@@ -19,6 +19,7 @@ interface LogMessage {
     stackTrace?: string;
     statuscode?: string;
     correlationId?: string;
+    custom_fields?: Array<{ key: string; value: string }>;
 }
 
 class LogData {
