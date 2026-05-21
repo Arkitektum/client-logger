@@ -5,7 +5,7 @@
         "module": "commonjs" /* 'none', 'commonjs', 'amd', 'system', etc */,
         "declaration": true /* Concatenate & emit output to single file.*/,
         "declarationDir": "../lib/cjs/types",
-        "rootDir": "../", /* Specify the root directory of input files. */
+        "rootDir": "../src", /* Specify the root directory of input files. */
         "outDir": "../lib/cjs" /* Redirect output to the directory. */,
         "esModuleInterop": true /* Enables intero between CommonJS and ES */,
         "skipLibCheck": true /* Skip type checking of declaration files. */,
