@@ -52,7 +52,6 @@ class LogData {
 
 export class ClientLogger {
     logApiUrl: string;
-    sourceMapUrl: string;
     sourceMapJson: string;
     appName: string;
     sessionId: string;
