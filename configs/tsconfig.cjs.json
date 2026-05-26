@@ -14,5 +14,5 @@
         "lib": ["dom", "es5", "ES2015.promise", "es2020.string", "es2018.regexp"]
     },
     "include": ["../src"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "../src/**/*.test.ts", "../src/**/*.spec.ts"]
 }
