@@ -55,4 +55,36 @@ describe("addScript", () => {
 
         expect(document.querySelectorAll("#npm-source-map").length).toBe(1);
     });
+
+    it("resolves immediately when script element exists and window.sourceMap is loaded", async () => {
+        const existing = document.createElement("script");
+        existing.id = "npm-source-map";
+        document.head.appendChild(existing);
+
+        await expect(addScript()).resolves.toBeUndefined();
+    });
+
+    it("resolves on the existing script's load event when window.sourceMap is not yet ready", async () => {
+        const existing = document.createElement("script");
+        existing.id = "npm-source-map";
+        document.head.appendChild(existing);
+        delete (window as any).sourceMap;
+
+        const promise = addScript();
+        existing.dispatchEvent(new Event("load"));
+
+        await expect(promise).resolves.toBeUndefined();
+    });
+
+    it("rejects on the existing script's error event when window.sourceMap is not yet ready", async () => {
+        const existing = document.createElement("script");
+        existing.id = "npm-source-map";
+        document.head.appendChild(existing);
+        delete (window as any).sourceMap;
+
+        const promise = addScript();
+        existing.dispatchEvent(new Event("error"));
+
+        await expect(promise).rejects.toBeUndefined();
+    });
 });
