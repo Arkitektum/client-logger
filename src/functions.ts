@@ -42,14 +42,7 @@ export function getErrorDataFromError(error: Error, consumer: any) {
     };
 }
 
-export function getErrorDataFromSourceMap(
-    event: Event | string,
-    source?: string,
-    line?: number,
-    column?: number,
-    error?: Error,
-    consumer?: any
-) {
+export function getErrorDataFromSourceMap(event: Event | string, source?: string, line?: number, column?: number, error?: Error, consumer?: any) {
     if (consumer !== null && line !== undefined && column !== undefined) {
         const originalPosition = consumer.originalPositionFor({ line, column });
         return {

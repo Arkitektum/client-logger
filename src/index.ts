@@ -29,11 +29,7 @@ class LogData {
         this.logMessages = this.populateLogMessagesWithCommonProperties(logMessages, appName, sessionId);
     }
 
-    private populateLogMessagesWithCommonProperties(
-        logMessages: Array<LogMessage>,
-        appName: string,
-        sessionId: string
-    ) {
+    private populateLogMessagesWithCommonProperties(logMessages: Array<LogMessage>, appName: string, sessionId: string) {
         return logMessages.map((logMessage) => {
             return {
                 ...logMessage,
@@ -86,13 +82,7 @@ export class ClientLogger {
 
         const clientLogger = new ClientLogger(logApiUrl, sourceMapJson, appName);
 
-        window.onerror = async (
-            event: Event | string,
-            source?: string,
-            line?: number,
-            column?: number,
-            error?: Error
-        ) => {
+        window.onerror = async (event: Event | string, source?: string, line?: number, column?: number, error?: Error) => {
             const errorData = getErrorDataFromSourceMap(event, source, line, column, error, consumer);
             const logMessages = [errorData];
             clientLogger.postLogData(logMessages);
@@ -102,12 +92,11 @@ export class ClientLogger {
     }
 
     public async getLogMessageFromError(error: Error, logMessageProps: LogMessage) {
-        const consumer =
-            this.sourceMapJson !== null ? await new window.sourceMap.SourceMapConsumer(this.sourceMapJson) : null;
+        const consumer = this.sourceMapJson !== null ? await new window.sourceMap.SourceMapConsumer(this.sourceMapJson) : null;
         const errorData = getErrorDataFromError(error, consumer);
-        if (errorData?.message?.length && logMessageProps?.message?.length){
+        if (errorData?.message?.length && logMessageProps?.message?.length) {
             errorData.message = `${errorData.message} | ${logMessageProps.message}`;
-        } 
+        }
         return {
             ...logMessageProps,
             ...errorData

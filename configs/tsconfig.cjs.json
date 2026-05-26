@@ -3,20 +3,15 @@
         "incremental": true /* Enable incremental compilation */,
         "target": "ES2020" /* Specify ECMAScript target version: */,
         "module": "commonjs" /* 'none', 'commonjs', 'amd', 'system', etc */,
+        "types": ["node"],
         "declaration": true /* Concatenate & emit output to single file.*/,
         "declarationDir": "../lib/cjs/types",
-        "rootDir": "../src", /* Specify the root directory of input files. */
+        "rootDir": "../src" /* Specify the root directory of input files. */,
         "outDir": "../lib/cjs" /* Redirect output to the directory. */,
         "esModuleInterop": true /* Enables intero between CommonJS and ES */,
         "skipLibCheck": true /* Skip type checking of declaration files. */,
-        "forceConsistentCasingInFileNames": true, /* Disallow inconsistently */
-        "lib": [
-            "dom",
-            "es5",
-            "ES2015.promise",
-            "es2020.string",
-            "es2018.regexp"
-        ],
+        "forceConsistentCasingInFileNames": true /* Disallow inconsistently */,
+        "lib": ["dom", "es5", "ES2015.promise", "es2020.string", "es2018.regexp"]
     },
     "include": ["../src"],
     "exclude": ["node_modules"]
