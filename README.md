@@ -121,10 +121,10 @@ interface LogMessage {
     level?: string;
     message?: string;
     originalPosition?: {
-        column: number;
-        line: number;
-        name: string;
-        source: string;
+        column: number | null;
+        line: number | null;
+        name: string | null;
+        source: string | null;
     };
     path?: string;
     stackTrace?: string;
@@ -134,14 +134,23 @@ interface LogMessage {
 }
 declare class ClientLogger {
     logApiUrl: string;
-    sourceMapUrl: string;
     sourceMapJson: string;
     appName: string;
     sessionId: string;
     constructor(logApiUrl: string, sourceMapJson: string, appName: string);
-    private getSessionId;
     static create(logApiUrl: string, sourceMapUrl: string, appName: string): Promise<ClientLogger>;
     getLogMessageFromError(error: Error, logMessageProps: LogMessage): Promise<LogMessage>;
     postLogData(logMessages: Array<LogMessage>): void;
 }
 ```
+
+## Development
+
+```bash
+npm install         # install dependencies
+npm run build       # compile TypeScript to lib/cjs/
+npm test            # run jest tests
+npm run lint        # run eslint
+```
+
+Tests are co-located with source files as `*.test.ts` and run under `jest` with `ts-jest` in a `jsdom` environment.
