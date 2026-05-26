@@ -1,3 +1,5 @@
+import { SourceMapConsumer } from "./dom";
+
 function getErrorDataFromStack(error: Error) {
     const stackRegex = /(?<source>https?:\/\/\S+?):(?<line>\d+):(?<column>\d+)/g;
 
@@ -21,9 +23,9 @@ function getErrorDataFromStack(error: Error) {
     }
 }
 
-export function getErrorDataFromError(error: Error, consumer: any) {
+export function getErrorDataFromError(error: Error, consumer: SourceMapConsumer | null) {
     const errorData = getErrorDataFromStack(error);
-    if (consumer !== null && errorData !== null) {
+    if (consumer !== null && errorData !== null && errorData.line !== null && errorData.column !== null) {
         const originalPosition = consumer.originalPositionFor({ line: errorData.line, column: errorData.column });
         return {
             message: error?.message,
@@ -42,9 +44,9 @@ export function getErrorDataFromError(error: Error, consumer: any) {
     };
 }
 
-export function getErrorDataFromSourceMap(event: Event | string, source?: string, line?: number, column?: number, error?: Error, consumer?: any) {
+export function getErrorDataFromSourceMap(event: Event | string, source?: string, line?: number, column?: number, error?: Error, consumer?: SourceMapConsumer | null) {
     if (consumer !== null && line !== undefined && column !== undefined) {
-        const originalPosition = consumer.originalPositionFor({ line, column });
+        const originalPosition = consumer?.originalPositionFor({ line, column });
         return {
             message: event.toString(),
             stackTrace: error?.stack,

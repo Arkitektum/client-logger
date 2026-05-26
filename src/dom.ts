@@ -1,4 +1,4 @@
-interface SourceMapConsumer {
+export interface SourceMapConsumer {
     originalPositionFor(generatedPosition: { line: number; column: number }): {
         source: string | null;
         line: number | null;
