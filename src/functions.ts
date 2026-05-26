@@ -1,10 +1,10 @@
 function getErrorDataFromStack(error: Error) {
     const stackRegex = /(?<source>http.*?):(?<line>\d+):(?<column>\d+)/g;
 
-    if (!!error?.stack?.length) {
+    if (error?.stack?.length) {
         const stack = error.stack.toString();
         const matches = [...stack.matchAll(stackRegex)];
-        if (!!matches.length) {
+        if (matches.length) {
             const matchGroup = matches?.[0]?.groups;
             const source = matchGroup?.source;
 

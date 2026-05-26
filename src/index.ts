@@ -1,7 +1,7 @@
 // Functions
-import { createUUID } from "./generators";
+import { getErrorDataFromError, getErrorDataFromSourceMap } from "./functions";
 import { addScript } from "./dom";
-import { getErrorDataFromSourceMap, getErrorDataFromError } from "./functions";
+import { createUUID } from "./generators";
 
 interface LogMessage {
     appName?: string;
@@ -112,7 +112,7 @@ export class ClientLogger {
             },
             body: JSON.stringify(logData)
         };
-        if (!!this.logApiUrl?.length) {
+        if (this.logApiUrl?.length) {
             fetch(this.logApiUrl, fetchOptions);
         } else {
             console.warn("Missing value for logApiUrl");
