@@ -1,36 +1,51 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
-name: Publish GitHub package
+name: Publish GitHub Package
 
 on:
-  release:
-    types: [created]
+    release:
+        types: [created]
+
+permissions:
+    contents: read
+    packages: write
+    id-token: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: yarn
+    publish-github-package:
+        runs-on: ubuntu-latest
 
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com/
-      - run: yarn
-      - run: yarn build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        steps:
+            - uses: actions/checkout@v6
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "24"
+                  registry-url: https://npm.pkg.github.com/
+                  scope: "@arkitektum"
+
+            # 👇 Ensure Yarn v4 from packageManager is used
+            - name: Enable Corepack & activate Yarn 4
+              run: |
+                  corepack enable
+                  corepack prepare yarn@4.10.3 --activate
+                  yarn --version
+
+            - run: yarn install --immutable
+            - run: yarn test
+            - run: yarn build
+
+            - name: Determine dist-tag
+              id: dist_tag
+              run: |
+                  TAG_NAME="${{ github.event.release.tag_name }}"
+                  if [[ "$TAG_NAME" == *"-"* ]]; then
+                    DIST_TAG=$(echo "$TAG_NAME" | sed 's/.*-\([a-zA-Z]*\).*/\1/')
+                  else
+                    DIST_TAG="latest"
+                  fi
+                  echo "value=$DIST_TAG" >> $GITHUB_OUTPUT
+
+            - name: Publish to GitHub Packages
+              if: ${{ success() }}
+              run: npm publish --tag ${{ steps.dist_tag.outputs.value }}
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
