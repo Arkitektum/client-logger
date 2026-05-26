@@ -1,7 +1,7 @@
 import { SourceMapConsumer } from "./dom";
 
 function getErrorDataFromStack(error: Error) {
-    const stackRegex = /(?<source>https?:\/\/\S+?):(?<line>\d+):(?<column>\d+)/g;
+    const stackRegex = /(?<source>https?:\/\/[^\s:/]+(?::\d+)?\/[^\s:]*):(?<line>\d+):(?<column>\d+)/g;
 
     if (error?.stack?.length) {
         const stack = error.stack.toString();
