@@ -37,9 +37,10 @@ export function getErrorDataFromError(error: Error, consumer: SourceMapConsumer 
         message: error?.message,
         stackTrace: error?.message ? new Error(error?.message)?.stack : null,
         originalPosition: {
-            source: errorData?.source,
-            line: errorData?.line,
-            column: errorData?.column
+            source: errorData?.source ?? null,
+            line: errorData?.line ?? null,
+            column: errorData?.column ?? null,
+            name: null
         }
     };
 }
@@ -59,9 +60,10 @@ export function getErrorDataFromSourceMap(event: Event | string, source?: string
         stackTrace: error?.stack,
         level: "Error",
         originalPosition: {
-            column,
-            line,
-            source
+            column: column ?? null,
+            line: line ?? null,
+            source: source ?? null,
+            name: null
         }
     };
 }
