@@ -108,3 +108,6 @@ dist
 
 # build files
 lib/
+
+# Claude
+.claude/
