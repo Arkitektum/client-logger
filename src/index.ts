@@ -10,10 +10,10 @@ interface LogMessage {
     level?: string;
     message?: string;
     originalPosition?: {
-        column: number;
-        line: number;
-        name: string;
-        source: string;
+        column: number | null;
+        line: number | null;
+        name: string | null;
+        source: string | null;
     };
     path?: string;
     stackTrace?: string;
