@@ -12,6 +12,7 @@
         "clean": "rm -rf ./lib",
         "build": "npm run clean && npm run build:cjs",
         "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+        "test": "jest",
         "lint": "eslint src --ext .js"
     },
     "repository": {
@@ -30,6 +31,7 @@
         "@types/node": "^25.9.1",
         "eslint": "^10.4.0",
         "globals": "^17.6.0",
+        "jest": "^30.4.2",
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.60.0"
     }
