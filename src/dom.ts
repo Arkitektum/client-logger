@@ -25,18 +25,26 @@ export function addScript() {
     const scriptElementId = "npm-source-map";
     return new Promise<void>((resolve, reject) => {
         try {
-            if (!document.getElementById(scriptElementId)) {
-                const script = document.createElement("script");
-                script.setAttribute("id", scriptElementId);
-                script.src = "https://unpkg.com/source-map@0.7.3/dist/source-map.js";
-                script.onload = () => {
-                    window.sourceMap.SourceMapConsumer.initialize({
-                        "lib/mappings.wasm": "https://cdn.jsdelivr.net/npm/source-map@0.7.3/lib/mappings.wasm"
-                    });
+            const existing = document.getElementById(scriptElementId) as HTMLScriptElement | null;
+            if (existing) {
+                if (window.sourceMap) {
                     resolve();
-                };
-                document.head.append(script);
+                } else {
+                    existing.addEventListener("load", () => resolve(), { once: true });
+                    existing.addEventListener("error", () => reject(), { once: true });
+                }
+                return;
             }
+            const script = document.createElement("script");
+            script.setAttribute("id", scriptElementId);
+            script.src = "https://unpkg.com/source-map@0.7.3/dist/source-map.js";
+            script.onload = () => {
+                window.sourceMap.SourceMapConsumer.initialize({
+                    "lib/mappings.wasm": "https://cdn.jsdelivr.net/npm/source-map@0.7.3/lib/mappings.wasm"
+                });
+                resolve();
+            };
+            document.head.append(script);
         } catch {
             reject();
         }
