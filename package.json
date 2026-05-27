@@ -1,7 +1,7 @@
 {
     "name": "@arkitektum/client-logger",
     "version": "1.1.2",
-    "description": "",
+    "description": "Elastic logger for frontend applications",
     "types": "./lib/cjs/types/index.d.ts",
     "main": "./lib/cjs/index.js",
     "files": [
@@ -19,9 +19,7 @@
         "type": "git",
         "url": "git+https://github.com/Arkitektum/client-logger.git"
     },
-    "keywords": [],
     "author": "",
-    "license": "",
     "bugs": {
         "url": "https://github.com/Arkitektum/client-logger/issues"
     },
