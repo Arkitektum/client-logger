@@ -1,6 +1,6 @@
 {
     "name": "@arkitektum/client-logger",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Elastic logger for frontend applications",
     "packageManager": "yarn@4.15.0",
     "types": "./lib/cjs/types/index.d.ts",
